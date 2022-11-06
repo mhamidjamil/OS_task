@@ -21,7 +21,9 @@ int main(int argc, char *argv[]) {
 
   // printf("args : %d\n", argc);
   // printf("New port number : %s\n", argv[1]);
-  PORT = atoi(argv[1]);
+  if (argv[1] > 0) {
+    PORT = atoi(argv[1]);
+  }
   int sockfd, n;
   char buffer[256];
   struct sockaddr_in serv_addr;

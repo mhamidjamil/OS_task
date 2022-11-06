@@ -15,18 +15,30 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <time.h>
 #include <unistd.h>
 
 int PORT = 5001;
-
+// function get char array print it and return char array:
+char *get_string(char *str);
+char *charA(char *str);
+char *charE(char *str);
+char *charI(char *str);
+char *charO(char *str);
+char *charU(char *str);
+int sum(char *str);
 int main(int argc, char *argv[]) {
-  // if(argc > 100){
-  // PORT = argc;
-  // printf("args : %d\n", argc);
-  // printf("New port number : %s\n", argv[1]);
-  // while (1) {
+  int id;
+
   if (argv[1] > 0) {
+    char buf[30];
+    snprintf(buf, 30, "fuser -k %d/tcp", atoi(argv[1]));
+
     PORT = atoi(argv[1]);
+    system(buf);
+  } else {
+    // kill port if it is already in use
+    system("fuser -k 5001/tcp");
   }
   // }
   int sockfd, newsockfd, clilen, n;
@@ -68,9 +80,27 @@ int main(int argc, char *argv[]) {
   if (n < 0) {
     perror("ERROR reading from socket");
     exit(1);
+  } else {
+    id = fork();
+    if (id < 0) {
+      perror("ERROR on fork");
+    } else {
+      printf("ID : %d\n", id);
+      if (id == 0) {
+        printf("child : Here is the message: %s", (get_string(buffer)));
+        // n = write(newsockfd, "C got your message", 18);
+      } else {
+        printf("parent : Here is the message: %s", buffer);
+        n = write(newsockfd, "P got your message", 18);
+        sleep(2);
+      }
+    }
   }
-  printf("Here is the message: %s", buffer);
-  n = write(newsockfd, "I got your message", 18);
+  if (id != 0) {
+    printf("fininsh\n");
+  } else {
+    printf("child fininsh\n");
+  }
   if (n < 0) {
     perror("ERROR writing to socket");
     exit(1);
@@ -81,6 +111,82 @@ int main(int argc, char *argv[]) {
 
   // 7. Close the socket
   close(sockfd);
-  // }
   return 0;
+}
+char *get_string(char *str) {
+  printf("function got : %s", str);
+  char *str1 = charA(str);
+  printf("function A return : %s", str1);
+  char *str2 = charE(str);
+  printf("function E return : %s", str2);
+  char *str3 = charI(str);
+  printf("function I return : %s", str3);
+  char *str4 = charO(str);
+  printf("function O return : %s", str4);
+  char *str5 = charU(str);
+  printf("function U return : %s", str5);
+  int sum1 = sum(str1);
+  printf("sum1 : %d\n", sum1);
+  return str;
+}
+char *charA(char *str) {
+  // capetalize char a in string
+  for (int i = 0; i < strlen(str); i++) {
+    if (str[i] == 'a') {
+      str[i] = 'A';
+    }
+  }
+  // printf("char a changed to A : %s", str);
+  return str;
+}
+char *charE(char *str) {
+  // capetalize char e in string
+  for (int i = 0; i < strlen(str); i++) {
+    if (str[i] == 'e') {
+      str[i] = 'E';
+    }
+  }
+  // printf("char e changed to E : %s", str);
+  return str;
+}
+char *charI(char *str) {
+  // capetalize char i in string
+  for (int i = 0; i < strlen(str); i++) {
+    if (str[i] == 'i') {
+      str[i] = 'I';
+    }
+  }
+  // printf("char i changed to I : %s", str);
+  return str;
+}
+char *charO(char *str) {
+  // capetalize char o in string
+  for (int i = 0; i < strlen(str); i++) {
+    if (str[i] == 'o') {
+      str[i] = 'O';
+    }
+  }
+  // printf("char o changed to O : %s", str);
+  return str;
+}
+char *charU(char *str) {
+  // capetalize char u in string
+  for (int i = 0; i < strlen(str); i++) {
+    if (str[i] == 'u') {
+      str[i] = 'U';
+    }
+  }
+  // printf("char u changed to U : %s", str);
+  return str;
+}
+int sum(char *str) {
+  int sum = 0;
+  // add all digits in string
+  for (int i = 0; i < strlen(str); i++) {
+    if (str[i] >= '0' && str[i] <= '9') {
+      sum += str[i] - '0';
+    }
+  }
+  // printf("sum of digits : %d", sum);
+  return sum;
 }
