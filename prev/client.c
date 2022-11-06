@@ -15,9 +15,13 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define PORT 5001
+int PORT = 5001;
 
 int main(int argc, char *argv[]) {
+
+  // printf("args : %d\n", argc);
+  // printf("New port number : %s\n", argv[1]);
+  PORT = atoi(argv[1]);
   int sockfd, n;
   char buffer[256];
   struct sockaddr_in serv_addr;

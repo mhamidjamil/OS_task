@@ -17,13 +17,19 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define PORT 5001
+int PORT = 5001;
 
 int main(int argc, char *argv[]) {
+  // if(argc > 100){
+  // PORT = argc;
+  printf("args : %d\n", argc);
+  printf("New port number : %s\n", argv[1]);
+  PORT = atoi(argv[1]);
+  // }
   int sockfd, newsockfd, clilen, n;
   char buffer[256];
   struct sockaddr_in serv_addr, cli_addr;
-//   int n;
+  //   int n;
 
   // 1. Create a socket
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -60,18 +66,18 @@ int main(int argc, char *argv[]) {
     perror("ERROR reading from socket");
     exit(1);
   }
-    printf("Here is the message: %s",buffer);
-    n = write(newsockfd,"I got your message",18);
-    if (n < 0) {
+  printf("Here is the message: %s", buffer);
+  n = write(newsockfd, "I got your message", 18);
+  if (n < 0) {
     perror("ERROR writing to socket");
     exit(1);
-    }
+  }
 
-    // 6. Close the connection
-    close(newsockfd);
+  // 6. Close the connection
+  close(newsockfd);
 
-    // 7. Close the socket
-    close(sockfd);
+  // 7. Close the socket
+  close(sockfd);
 
-    return 0;
+  return 0;
 }
