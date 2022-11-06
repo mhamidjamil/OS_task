@@ -22,9 +22,12 @@ int PORT = 5001;
 int main(int argc, char *argv[]) {
   // if(argc > 100){
   // PORT = argc;
-  printf("args : %d\n", argc);
-  printf("New port number : %s\n", argv[1]);
-  PORT = atoi(argv[1]);
+  // printf("args : %d\n", argc);
+  // printf("New port number : %s\n", argv[1]);
+  // while (1) {
+  if (argv[1] > 0) {
+    PORT = atoi(argv[1]);
+  }
   // }
   int sockfd, newsockfd, clilen, n;
   char buffer[256];
@@ -78,6 +81,6 @@ int main(int argc, char *argv[]) {
 
   // 7. Close the socket
   close(sockfd);
-
+  // }
   return 0;
 }
