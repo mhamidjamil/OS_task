@@ -1,18 +1,20 @@
 #include <stdio.h>
 // #include <conio.h>
 #include <string.h>
-
-int main()
+char key_[30] = "1101";
+char input_[32] = "101101110";
+char result[32];
+void getResult(char *input, char *key)
 {
     int i, j, keylen, msglen;
-    char input[100], key[30], temp[30], quot[100], rem[30], key1[30];
+    char temp[30], quot[100], rem[30], key1[30];
     //    clrscr();
-    printf("Enter Data: ");
-    // gets(input);
-    scanf("%s", input);
-    printf("Enter Key: ");
-    // gets(key);
-    scanf("%s", key);
+    // printf("Enter Data: ");
+    // // gets(input);
+    // scanf("%s", input);
+    // printf("Enter Key: ");
+    // // gets(key);
+    // scanf("%s", key);
     keylen = strlen(key);
     msglen = strlen(input);
     strcpy(key1, key);
@@ -42,17 +44,29 @@ int main()
         strcpy(temp, rem);
     }
     strcpy(rem, temp);
-    printf("\nQuotient is ");
+    // printf("\nQuotient is ");
+    // for (i = 0; i < msglen; i++)
+    //     printf("%c", quot[i]);
+    // printf("\nRemainder is ");
+    // for (i = 0; i < keylen - 1; i++)
+    //     printf("%c", rem[i]);
+    // printf("\nFinal data is: ");
     for (i = 0; i < msglen; i++)
-        printf("%c", quot[i]);
-    printf("\nRemainder is ");
+    {
+        // printf("%c", input[i]);
+        result[i] = input[i];
+    }
     for (i = 0; i < keylen - 1; i++)
-        printf("%c", rem[i]);
-    printf("\nFinal data is: ");
-    for (i = 0; i < msglen; i++)
-        printf("%c", input[i]);
-    for (i = 0; i < keylen - 1; i++)
-        printf("%c", rem[i]);
+    {
+        // printf("%c", rem[i]);
+        result[i + msglen] = rem[i];
+    }
     // getch();
+}
+int main()
+{
+    getResult(input_, key_);
+    // char finalStr[32] = result;
+    printf("\nFinal data is: %s", result);
     return 0;
 }

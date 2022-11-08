@@ -1,18 +1,17 @@
 #include <stdio.h>
 // #include <conio.h>
 #include <string.h>
-
-int main()
+int getResult(char *input, char *key)
 {
-    int i, j, keylen, msglen;
-    char input[100], key[30], temp[30], quot[100], rem[30], key1[30];
+    int i, j, keylen, msglen, reciver_ = 1;
+    char temp[30], quot[100], rem[30], key1[30];
     //    clrscr();
-    printf("Enter Data: ");
-    // gets(input);
-    scanf("%s", input);
-    printf("Enter Key: ");
-    // gets(key);
-    scanf("%s", key);
+    // printf("Enter Data: ");
+    // // gets(input);
+    // scanf("%s", input);
+    // printf("Enter Key: ");
+    // // gets(key);
+    // scanf("%s", key);
     keylen = strlen(key);
     msglen = strlen(input);
     strcpy(key1, key);
@@ -47,12 +46,42 @@ int main()
         printf("%c", quot[i]);
     printf("\nRemainder is ");
     for (i = 0; i < keylen - 1; i++)
+    {
+        if (rem[i] == '1' && reciver_ == 1)
+        {
+            printf("Error in reciving data");
+            //   reciver_ = 0;
+            return 0;
+        }
+
         printf("%c", rem[i]);
-    printf("\nFinal data is: ");
-    for (i = 0; i < msglen; i++)
-        printf("%c", input[i]);
-    for (i = 0; i < keylen - 1; i++)
-        printf("%c", rem[i]);
+    }
+    // printf("\nFinal data is: ");
+    // for (i = 0; i < msglen; i++)
+    //   printf("%c", input[i]);
+    // for (i = 0; i < keylen - 1; i++)
+    //   printf("%c", rem[i]);
     // getch();
+    printf("\nCRC Communication succeeded\n");
+    return 1;
+}
+int main()
+{
+    char input[100], key[30];
+    printf("Enter Data: ");
+    // gets(input);
+    scanf("%s", input);
+    printf("Enter Key: ");
+    // gets(key);
+    scanf("%s", key);
+    int result = getResult(input, key);
+    if (result == 0)
+    {
+        printf("error encounter");
+    }
+    else
+    {
+        printf("no error");
+    }
     return 0;
 }
