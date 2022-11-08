@@ -51,11 +51,12 @@ int main() {
 
     printf("%c", rem[i]);
   }
-  printf("\nFinal data is: ");
-  for (i = 0; i < msglen; i++)
-    printf("%c", input[i]);
-  for (i = 0; i < keylen - 1; i++)
-    printf("%c", rem[i]);
+  // printf("\nFinal data is: ");
+  // for (i = 0; i < msglen; i++)
+  //   printf("%c", input[i]);
+  // for (i = 0; i < keylen - 1; i++)
+  //   printf("%c", rem[i]);
   // getch();
+  printf("\nCRC Communication succeeded\n");
   return 0;
 }

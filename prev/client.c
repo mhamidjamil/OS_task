@@ -17,11 +17,13 @@
 
 int PORT = 5001;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
   // printf("args : %d\n", argc);
   // printf("New port number : %s\n", argv[1]);
-  if (argv[1] > 0) {
+  if (argv[1] > 0)
+  {
     PORT = atoi(argv[1]);
   }
   int sockfd, n;
@@ -30,7 +32,8 @@ int main(int argc, char *argv[]) {
 
   // 1. Create a socket
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) {
+  if (sockfd < 0)
+  {
     perror("ERROR opening socket");
     exit(1);
   }
@@ -40,23 +43,48 @@ int main(int argc, char *argv[]) {
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_addr.s_addr = INADDR_ANY;
   serv_addr.sin_port = htons(PORT);
-  if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+  if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+  {
     perror("ERROR connecting");
     exit(1);
   }
-
+  FILE *fp;
+  fp = fopen("text.txt", "r");
+  if (fp == NULL)
+  {
+    perror("ERROR opening file");
+    printf("Please enter the message: ");
+    bzero(buffer, 256);
+    // exit(1);
+  }
+  // read file and send data to server
+  else
+  {
+    while (fgets(buffer, 256, fp) != NULL)
+    {
+      n = write(sockfd, buffer, strlen(buffer));
+      if (n < 0)
+      {
+        perror("ERROR writing to socket");
+        exit(1);
+      }
+      bzero(buffer, 256);
+      printf("data sent to server\n");
+    }
+  }
   // 3. Send and receive data
-  printf("Please enter the message: ");
-  bzero(buffer, 256);
+
   fgets(buffer, 255, stdin);
   n = write(sockfd, buffer, strlen(buffer));
-  if (n < 0) {
+  if (n < 0)
+  {
     perror("ERROR writing to socket");
     exit(1);
   }
   bzero(buffer, 256);
   n = read(sockfd, buffer, 255);
-  if (n < 0) {
+  if (n < 0)
+  {
     perror("ERROR reading from socket");
     exit(1);
   }
