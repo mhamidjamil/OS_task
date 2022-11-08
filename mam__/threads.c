@@ -8,7 +8,7 @@ void *charI(void *u);
 void *charO(void *u);
 void *charU(void *u);
 
-void *digit(void *u) {
+void *sum(void *u) {
   char *ptr = (char *)u;
   int i, sum = 0, n = 0;
 
@@ -110,7 +110,7 @@ int main() {
   char str[Buffer];
   scanf("%s", str);
 
-  pthread_create(&tid, NULL, &digit, &str);
+  pthread_create(&tid, NULL, &sum, &str);
   pthread_create(&tid1, NULL, &charA, &str);
 
   pthread_join(tid, NULL);

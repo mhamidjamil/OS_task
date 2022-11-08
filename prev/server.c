@@ -8,7 +8,7 @@
 // 5. Send and receive data
 // 6. Close the connection
 // 7. Close the socket
-
+#include <pthread.h>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -107,9 +107,7 @@ int main(int argc, char *argv[])
       else
       {
         printf("parent : Here is the message: %s", buffer);
-        char buf[18];
-        snprintf(buf, 18, "%s", (get_string(buffer)));
-        n = write(newsockfd, buf, 18);
+        n = write(newsockfd, "P got your message", 18);
         sleep(2);
       }
     }

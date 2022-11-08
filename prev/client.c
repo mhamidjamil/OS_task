@@ -48,32 +48,10 @@ int main(int argc, char *argv[])
     perror("ERROR connecting");
     exit(1);
   }
-  FILE *fp;
-  fp = fopen("text.txt", "r");
-  if (fp == NULL)
-  {
-    perror("ERROR opening file");
-    printf("Please enter the message: ");
-    bzero(buffer, 256);
-    // exit(1);
-  }
-  // read file and send data to server
-  else
-  {
-    while (fgets(buffer, 256, fp) != NULL)
-    {
-      n = write(sockfd, buffer, strlen(buffer));
-      if (n < 0)
-      {
-        perror("ERROR writing to socket");
-        exit(1);
-      }
-      bzero(buffer, 256);
-      printf("data sent to server\n");
-    }
-  }
-  // 3. Send and receive data
 
+  // 3. Send and receive data
+  printf("Please enter the message: ");
+  bzero(buffer, 256);
   fgets(buffer, 255, stdin);
   n = write(sockfd, buffer, strlen(buffer));
   if (n < 0)
@@ -82,14 +60,20 @@ int main(int argc, char *argv[])
     exit(1);
   }
   bzero(buffer, 256);
-  n = read(sockfd, buffer, 255);
-  if (n < 0)
+  // getData:
+  int noofinput = 3;
+  do
   {
-    perror("ERROR reading from socket");
-    exit(1);
-  }
-  printf("%s", buffer);
-
+    bzero(buffer, 256);
+    n = read(sockfd, buffer, 255);
+    if (n < 0)
+    {
+      perror("ERROR reading from socket");
+      exit(1);
+    }
+    printf("%s", buffer);
+    noofinput--;
+  } while (noofinput > 0);
   // 4. Close the connection
   close(sockfd);
 
