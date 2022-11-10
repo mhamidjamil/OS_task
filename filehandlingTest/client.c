@@ -166,12 +166,29 @@ int main(int argc, char *argv[])
     {
         bzero(buffer, 256);
         n = read(sockfd, buffer, 255);
+        if (noofinput == 3)
+        { // write data in result.txt:
+            FILE *file = fopen("result.txt", "a");
+            if (file == NULL)
+            {
+                printf("File not found, unable to write data");
+            }
+            else
+            {
+                fprintf(file, "%s", buffer);
+                fclose(file);
+            }
+        }
         if (n < 0)
         {
             perror("ERROR reading from socket");
             exit(1);
         }
         printf("%s", buffer);
+        // if (noofinput == 3)
+        // {
+        //     printf("__)");
+        // }
         noofinput--;
     } while (noofinput > 0);
     // 4. Close the connection

@@ -317,7 +317,7 @@ int main(int argc, char *argv[])
         sprintf(sum_string, "%d", sum_);
         n = write(newsockfd, sum_string, 10);
         //--------------------
-        n = write(newsockfd, "end", 3);
+        n = write(newsockfd, "\nend", 3);
         // sleep(2);
     }
 
